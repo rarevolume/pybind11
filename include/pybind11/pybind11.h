@@ -764,7 +764,9 @@ protected:
         } catch ( abi::__forced_unwind& ) {
             throw;
 #endif
-        } catch (...) {
+        }
+#if 0
+        catch (...) {
             /* When an exception is caught, give each registered exception
                translator a chance to translate it to a Python exception
                in reverse order of registration.
@@ -790,6 +792,7 @@ protected:
             PyErr_SetString(PyExc_SystemError, "Exception escaped from default exception translator!");
             return nullptr;
         }
+#endif
 
         auto append_note_if_missing_header_is_suspected = [](std::string &msg) {
             if (msg.find("std::") != std::string::npos) {
